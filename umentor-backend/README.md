@@ -7,7 +7,7 @@ Este é o backend de uma aplicação construída com Laravel. O objetivo deste p
 
 Antes de começar, certifique-se de ter instalado:
 
-- PHP >= 8.0
+- PHP >= 8.2
 - Composer
 - MySQL (ou outro banco de dados compatível)
 - Node.js (opcional, para algumas funcionalidades extras)
