@@ -35,7 +35,6 @@ export function Usuarios() {
 
     const { reset } = useForm<UserFormData>();
 
-    // Buscar todos os usuários
     useEffect(() => {
         async function getAllUsers() {
             try {
@@ -53,7 +52,6 @@ export function Usuarios() {
         getAllUsers();
     }, []);
 
-    // Filtro de pesquisa
     useEffect(() => {
         const results = users.filter(user =>
             user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -63,19 +61,18 @@ export function Usuarios() {
         setFilteredUsers(results);
     }, [searchTerm, users]);
 
-    // Método para excluir usuário
     const removeUser = async (id: number) => {
         try {
             await api.delete(`/api/users/${id}`);
             setUsers(users.filter(user => user.id !== id));
             setAlertType('success');
             setAlertMessage('Usuário excluído com sucesso!');
-            setAlertOpen(true);
-        } catch {
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Erro ao excluir usuário!';
             setAlertType('error');
-            setAlertMessage('Erro ao excluir usuário!');
-            setAlertOpen(true);
+            setAlertMessage(errorMessage);
         } finally {
+            setAlertOpen(true);
             setTimeout(() => {
                 setAlertOpen(false);
             }, 3000);
@@ -99,14 +96,13 @@ export function Usuarios() {
         });
     };
 
-    // Método para editar usuário
     function handleEditUser(user: User) {
         setSelectedUser(user);
         setOpenModal(true);
     }
 
     function handleCloseModal() {
-        reset(); // Resetar os campos do formulário ao fechar o modal
+        reset(); 
         setSelectedUser(null);
         setOpenModal(false);
     }
@@ -115,41 +111,40 @@ export function Usuarios() {
         try {
             const response = await api.put(`/api/users/${updatedUser.id}`, updatedUser);
             const updatedData = response.data.user;
-
+    
             setUsers(users.map(u => (u.id === updatedUser.id ? updatedData : u)));
             setAlertType('success');
             setAlertMessage('Usuário atualizado com sucesso!');
-            setAlertOpen(true);
-        } catch {
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Erro ao atualizar usuário!';
             setAlertType('error');
-            setAlertMessage('Erro ao atualizar usuário!');
-            setAlertOpen(true);
+            setAlertMessage(errorMessage);
         } finally {
+            setAlertOpen(true);
             setOpenModal(false);
         }
     }
 
-    // Método para criar usuário
     async function createUser(newUser: UserFormData) {
         try {
             const formattedUser = {
                 ...newUser,
                 admission_date: dayjs(newUser.admission_date).format('YYYY-MM-DD')
             };
-
+    
             const response = await api.post('/api/users', formattedUser);
             const createdUser = response.data.user;
-
+    
             setUsers([createdUser, ...users]);
-            setFilteredUsers([createdUser, ...users]); // Atualiza também a lista filtrada
+            setFilteredUsers([createdUser, ...users]);
             setAlertType('success');
             setAlertMessage('Usuário criado com sucesso!');
-            setAlertOpen(true);
-        } catch {
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message || 'Erro ao criar usuário!';
             setAlertType('error');
-            setAlertMessage('Erro ao criar usuário!');
-            setAlertOpen(true);
+            setAlertMessage(errorMessage);
         } finally {
+            setAlertOpen(true);
             setOpenModal(false);
         }
     }

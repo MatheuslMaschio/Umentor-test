@@ -19,7 +19,7 @@ class UserController extends Controller
     public function index(): JsonResponse
 {
     try {
-        $users = User::orderBy('id', 'DESC')->get(); // Use get() para obter todos os usuários
+        $users = User::orderBy('id', 'DESC')->get(); 
 
         return response()->json([
             'status' => true,
