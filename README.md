@@ -159,10 +159,6 @@ O frontend estará disponível em `http://localhost:5173`.
 
 Se você deseja contribuir com o projeto, fique à vontade para abrir uma pull request ou criar uma issue no repositório.
 
-## Licença
-
-Este projeto é de uso livre e está disponível sob a [Licença MIT](https://opensource.org/licenses/MIT).
-
 ---
 
 Se tiver dúvidas ou sugestões, entre em contato por meio do repositório!
